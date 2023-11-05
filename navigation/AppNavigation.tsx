@@ -10,9 +10,27 @@ const AppNavigation = () => {
 
   return (
     <Stack.Navigator initialRouteName='home'>
-      <Stack.Screen name='home' component={Home} />
-      <Stack.Screen name='employeeCreate' component={EmployeeCreate} />
-      <Stack.Screen name='employeeView' component={EmployeeView} />
+      <Stack.Screen
+        name='home'
+        component={Home}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name='employeeCreate'
+        component={EmployeeCreate}
+        options={{
+          title: 'Crear Empleado'
+        }}
+      />
+      <Stack.Screen
+        name='employeeView'
+        component={EmployeeView}
+        options={{
+          title: 'Empleados'
+        }}
+      />
     </Stack.Navigator>
   )
 }
