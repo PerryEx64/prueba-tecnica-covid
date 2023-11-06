@@ -12,7 +12,9 @@ interface Props {
 }
 const ButtonSubmit = ({ title, onSubmit }: Props) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onSubmit}>
+    <TouchableOpacity style={styles.button} onPress={() => {
+      onSubmit()
+    }}>
       <Text style={styles.buttonTitle}>{title}</Text>
     </TouchableOpacity>
   )

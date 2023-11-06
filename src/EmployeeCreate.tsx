@@ -1,8 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import { type StackNavigationProp } from '@react-navigation/stack'
+import * as Crypto from 'expo-crypto'
 import React from 'react'
-import { Controller, useForm, type SubmitHandler } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet, Text, View } from 'react-native'
+import { CreateEmployee } from '../services/employee'
 import { type Employees } from '../types/employees'
 import { type RootStackParamList } from '../types/navigation'
 import { Colors } from '../utils/colors'
@@ -13,6 +15,7 @@ import Input from './components/Input'
 
 const EmployeeCreate = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const UUID = Crypto.randomUUID()
 
   const {
     control,
@@ -21,17 +24,17 @@ const EmployeeCreate = () => {
     formState: { errors }
   } = useForm<Employees>({
     defaultValues: {
+      id: UUID,
       name: '',
-      firstDoseDate: new Date(),
+      firstDoseDate: '',
       jobTitle: '',
-      secondDoseDate: null,
+      secondDoseDate: '',
       vaccineAdministered: ''
     }
   })
 
-  const onSubmit: SubmitHandler<Employees> = (data) => {
-    console.log(data)
-    navigation.navigate('home')
+  const onSubmit = (data: Employees) => {
+    CreateEmployee(data)
   }
   return (
     <View style={styles.container}>

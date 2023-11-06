@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import { type StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { CreateTableEmployee } from '../services/employee'
 import { type RootStackParamList } from '../types/navigation'
 
 const Home = () => {
@@ -10,6 +11,10 @@ const Home = () => {
   const handleNavigation = () => {
     navigation.navigate('employeeView')
   }
+
+  React.useEffect(() => {
+    CreateTableEmployee()
+  }, [])
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{'Control de vacunacion COVID-19'}</Text>

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { type UseFormSetValue } from 'react-hook-form'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { type Employees } from '../../types/employees'
+import useDate from '../../hooks/useDate'
 
 type Mode = 'date' | 'time'
 
@@ -18,12 +19,13 @@ const Datepicker = ({
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState<Mode>()
   const [show, setShow] = useState(false)
+  const { dateFull } = useDate(date)
 
   const onChange = (event: any, selectedDate: Date | any) => {
     const currentDate = selectedDate
     setShow(false)
     setDate(currentDate)
-    setValue('firstDoseDate', date)
+    setValue('firstDoseDate', dateFull)
   }
 
   const showMode = (currentMode: Mode) => {
@@ -41,11 +43,7 @@ const Datepicker = ({
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity style={styles.picker} onPress={handleDatepicker}>
           <Text style={{ textAlign: 'center', color: '#858585' }}>
-            {`${date.getDate()}` +
-              '-' +
-              `${date.getMonth() + 1}` +
-              '-' +
-              `${date.getFullYear()}`}
+            {dateFull}
           </Text>
         </TouchableOpacity>
       </View>
