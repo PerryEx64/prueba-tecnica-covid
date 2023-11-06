@@ -1,8 +1,10 @@
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import EmployeeCreate from '../src/EmployeeCreate'
 import EmployeeView from '../src/EmployeeView'
 import Home from '../src/Home'
+import IconNavigation from '../src/components/IconNavigation'
 import { type RootStackParamList } from '../types/navigation'
 
 const AppNavigation = () => {
@@ -21,14 +23,24 @@ const AppNavigation = () => {
         name='employeeCreate'
         component={EmployeeCreate}
         options={{
-          title: 'Crear Empleado'
+          title: 'Crear Empleado',
+          headerRight: () => (
+            <IconNavigation to={'home'} title='Inicio'>
+              <MaterialCommunityIcons name='home' size={28} color='#0277B5' />
+            </IconNavigation>
+          )
         }}
       />
       <Stack.Screen
         name='employeeView'
         component={EmployeeView}
         options={{
-          title: 'Empleados'
+          title: 'Empleados',
+          headerRight: () => (
+            <IconNavigation to={'employeeCreate'} title='Agregar empleado'>
+              <Ionicons name='person-add' size={28} color='#0277B5' />
+            </IconNavigation>
+          )
         }}
       />
     </Stack.Navigator>

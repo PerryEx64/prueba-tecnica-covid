@@ -4,6 +4,8 @@ import { type Vaccine } from '../types/vaccines'
 
 const UUID = Crypto.randomUUID()
 
+export const ERRORFORM = 'Campo requerido!'
+
 export const States: EmployeesState[] = [
   {
     id: UUID,

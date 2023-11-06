@@ -1,5 +1,5 @@
+export type NavigationScreen = 'home' | 'employeeCreate' | 'employeeView'
+
 export type RootStackParamList = {
-  home: undefined
-  employeeCreate: undefined
-  employeeView: undefined
+  [key in NavigationScreen]: undefined
 }
