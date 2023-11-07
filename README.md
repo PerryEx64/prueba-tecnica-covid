@@ -19,6 +19,5 @@ Abra una terminal en la raíz del proyecto y ejecute el siguiente comando para i
 
 #### Imagenes Proyecto
 
-![home preview](./assets/project-images/iphone-home-preview.png)
-![splash preview](./assets/project-images/iphone-splash-preview.png)
-![Screen ](ome./assets/project-images/home.PNG)
+<img src="./assets/project-images/iphone-home-preview.png" alt="ome Preview" width="200" height="150">
+<img src="./assets/project-images/iphone-splash-preview.png" alt="Splash Preview" width="200" height="150">
