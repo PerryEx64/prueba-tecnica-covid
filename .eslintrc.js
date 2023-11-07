@@ -26,6 +26,8 @@ module.exports = {
         'react/react-in-jsx-scope': 'off',
         "@typescript-eslint/no-misused-promises": "off",
         "no-unused-expressions": "off",
-        "@typescript-eslint/no-unused-expressions": "off"
+        "@typescript-eslint/no-unused-expressions": "off",
+        "multiline-ternary": 'off',
+        "@typescript-eslint/indent" : 'off'
     }
 }

@@ -68,6 +68,9 @@ export const Vaccines: Vaccine[] = [
   {
     name: 'Janssen',
     doseQuantity: 1,
-    nextDose: null
+    nextDose: {
+      quantity: 0,
+      time: 'days'
+    }
   }
 ]

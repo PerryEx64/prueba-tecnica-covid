@@ -89,3 +89,50 @@ export const DropEmployeeTable = () => {
     )
   })
 }
+
+/**
+ * where delete employee with table employees
+ * @param {*} id id employee
+ */
+export const DeleteEmployee = (id) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'DELETE FROM employees where id = ?',
+      [id],
+      () => {
+        console.log('Empleado eliminada con éxito.')
+      },
+      (_, error) => {
+        console.error('Error al eliminar empleado:', error)
+      }
+    )
+  })
+}
+
+export const UpdateEmployee = (data) => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      'update employees set id = ?, name = ?, jobTitle = ?, vaccineAdministered = ?, firstDoseDate = ?, secondDoseDate = ? where id = ?',
+      [
+        data.id,
+        data.name,
+        data.jobTitle,
+        data.vaccineAdministered,
+        data.firstDoseDate,
+        data.secondDoseDate,
+        data.id
+      ],
+      (_, { insertId, rowsAffected }) => {
+        if (rowsAffected > 0) {
+          // La inserción fue exitosa
+          console.log('Empleado actualizado con éxito. ID:', insertId)
+        } else {
+          console.log('No se insertaron registros.')
+        }
+      },
+      (_, error) => {
+        console.error('Error al insertar empleado:', error)
+      }
+    )
+  })
+}

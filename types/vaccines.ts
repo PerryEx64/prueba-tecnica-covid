@@ -1,6 +1,6 @@
 type Time = 'weeks' | 'days'
 
-interface SecondDose {
+export interface SecondDose {
   quantity: number
   time: Time
 }

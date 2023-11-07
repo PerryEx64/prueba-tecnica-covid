@@ -1,11 +1,7 @@
-const useDate = (date: Date) => {
-  const day = date.getDate()
-  const month = date.getMonth() + 1
-  const year = date.getFullYear()
+import moment from 'moment'
 
-  const dateFull = `${day < 10 ? '0' : ''}${day}-${
-    month < 10 ? '0' : ''
-  }${month}-${year}`
+const useDate = (date: Date) => {
+  const dateFull = moment(date).format('DD-MM-YYYY')
 
   return { dateFull }
 }

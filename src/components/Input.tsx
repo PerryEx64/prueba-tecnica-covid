@@ -14,9 +14,10 @@ interface Props {
   value: string | undefined
   label: string
   placeholder: string
+  disabled?: boolean
 }
 
-const Input = ({ onBlur, onChange, value, label, placeholder }: Props) => {
+const Input = ({ onBlur, onChange, value, label, placeholder, disabled }: Props) => {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
@@ -27,6 +28,7 @@ const Input = ({ onBlur, onChange, value, label, placeholder }: Props) => {
         value={value}
         style={styles.textInput}
         textAlign='center'
+        editable={disabled}
       />
     </View>
   )

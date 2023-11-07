@@ -6,6 +6,7 @@ import EmployeeView from '../src/EmployeeView'
 import Home from '../src/Home'
 import IconNavigation from '../src/components/IconNavigation'
 import { type RootStackParamList } from '../types/navigation'
+import EmployeeEdit from '../src/EmployeeEdit'
 
 const AppNavigation = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -38,6 +39,19 @@ const AppNavigation = () => {
           title: 'Empleados',
           headerRight: () => (
             <IconNavigation to={'employeeCreate'} title='Agregar empleado'>
+              <Ionicons name='person-add' size={28} color='#0277B5' />
+            </IconNavigation>
+          )
+        }}
+      />
+
+      <Stack.Screen
+        name='employeeEdit'
+        component={EmployeeEdit}
+        options={{
+          title: 'Edicion de Empleados',
+          headerRight: () => (
+            <IconNavigation to={'employeeView'} title='Agregar empleado'>
               <Ionicons name='person-add' size={28} color='#0277B5' />
             </IconNavigation>
           )

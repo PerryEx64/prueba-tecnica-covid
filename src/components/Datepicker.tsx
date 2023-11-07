@@ -1,4 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
+import moment from 'moment'
 import React, { useState } from 'react'
 import { type UseFormSetValue } from 'react-hook-form'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -6,16 +7,24 @@ import { type Employees } from '../../types/employees'
 import useDate from '../../hooks/useDate'
 
 type Mode = 'date' | 'time'
+type DoseDate = 'firstDoseDate' | 'secondDoseDate'
+interface Props {
+  modePicker: Mode
+  label: string
+  nameValue: DoseDate
+  setValue: UseFormSetValue<Employees>
+  value?: string | null
+  edit?: boolean
+}
 
 const Datepicker = ({
   modePicker,
   label,
-  setValue
-}: {
-  modePicker: Mode
-  label: string
-  setValue: UseFormSetValue<Employees>
-}) => {
+  setValue,
+  nameValue,
+  value,
+  edit
+}: Props) => {
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState<Mode>()
   const [show, setShow] = useState(false)
@@ -23,9 +32,10 @@ const Datepicker = ({
 
   const onChange = (event: any, selectedDate: Date | any) => {
     const currentDate = selectedDate
+    const dateFull = moment(currentDate).format('DD-MM-YYYY')
     setShow(false)
     setDate(currentDate)
-    setValue('firstDoseDate', dateFull)
+    setValue(nameValue, dateFull)
   }
 
   const showMode = (currentMode: Mode) => {
@@ -43,7 +53,7 @@ const Datepicker = ({
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity style={styles.picker} onPress={handleDatepicker}>
           <Text style={{ textAlign: 'center', color: '#858585' }}>
-            {dateFull}
+            {edit === true ? value : dateFull}
           </Text>
         </TouchableOpacity>
       </View>

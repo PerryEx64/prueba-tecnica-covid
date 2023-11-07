@@ -1,43 +1,44 @@
-import * as Crypto from 'expo-crypto'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet, Text, View } from 'react-native'
-import { CreateEmployee } from '../services/employee'
+import Toast from 'react-native-toast-message'
+import useUpdate from '../hooks/useUpdate'
+import { UpdateEmployee } from '../services/employee'
 import { type Employees } from '../types/employees'
 import { Colors } from '../utils/colors'
 import { ERRORFORM } from '../utils/constants'
 import ButtonSubmit from './components/ButtonSubmit'
 import Datepicker from './components/Datepicker'
 import Input from './components/Input'
-import useUpdate from '../hooks/useUpdate'
-import Toast from 'react-native-toast-message'
 
-const EmployeeCreate = () => {
-  const UUID = Crypto.randomUUID()
+const EmployeeEdit = ({ route }: any) => {
   const { updatedNavigation } = useUpdate()
+
+  const employee: Employees = route.params.data
 
   const {
     control,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm<Employees>({
     defaultValues: {
-      id: UUID,
-      name: '',
-      firstDoseDate: '',
-      jobTitle: '',
-      secondDoseDate: '',
-      vaccineAdministered: ''
+      id: employee.id,
+      name: employee.name,
+      firstDoseDate: employee.firstDoseDate,
+      jobTitle: employee.jobTitle,
+      secondDoseDate: employee.secondDoseDate,
+      vaccineAdministered: employee.vaccineAdministered
     }
   })
 
   const onSubmit = (data: Employees) => {
-    CreateEmployee(data)
+    UpdateEmployee(data)
     updatedNavigation('employeeView')
     Toast.show({
       type: 'success',
-      text1: 'Empleado creado',
+      text1: 'empleado actualizado',
       position: 'bottom'
     })
   }
@@ -90,6 +91,7 @@ const EmployeeCreate = () => {
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='ingresa vacuna administrada'
+              disabled={false}
               onBlur={onBlur}
               onChange={onChange}
               value={value}
@@ -105,6 +107,17 @@ const EmployeeCreate = () => {
           label='Fecha primera dosis'
           setValue={setValue}
           nameValue='firstDoseDate'
+          edit={true}
+          value={watch('firstDoseDate')}
+        />
+
+        <Datepicker
+          modePicker='date'
+          label='Fecha primera dosis'
+          setValue={setValue}
+          nameValue='secondDoseDate'
+          edit={true}
+          value={watch('secondDoseDate')}
         />
         <ButtonSubmit onSubmit={handleSubmit(onSubmit)} title='Guardar' />
       </View>
@@ -112,7 +125,7 @@ const EmployeeCreate = () => {
   )
 }
 
-export default EmployeeCreate
+export default EmployeeEdit
 
 const styles = StyleSheet.create({
   container: {
