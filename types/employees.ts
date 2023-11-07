@@ -11,4 +11,5 @@ export interface EmployeesState {
   id: string
   state: string
   description: string
+  img: 0 | 1 | 2
 }

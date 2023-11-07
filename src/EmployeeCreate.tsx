@@ -2,15 +2,17 @@ import * as Crypto from 'expo-crypto'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet, Text, View } from 'react-native'
+import Toast from 'react-native-toast-message'
+import useUpdate from '../hooks/useUpdate'
 import { CreateEmployee } from '../services/employee'
 import { type Employees } from '../types/employees'
 import { Colors } from '../utils/colors'
-import { ERRORFORM } from '../utils/constants'
+import { DATAVACCINE, ERRORFORM } from '../utils/constants'
+import { RuleJob, RuleName } from '../utils/rules'
 import ButtonSubmit from './components/ButtonSubmit'
 import Datepicker from './components/Datepicker'
+import Dropdown from './components/Dropdown'
 import Input from './components/Input'
-import useUpdate from '../hooks/useUpdate'
-import Toast from 'react-native-toast-message'
 
 const EmployeeCreate = () => {
   const UUID = Crypto.randomUUID()
@@ -19,6 +21,7 @@ const EmployeeCreate = () => {
   const {
     control,
     handleSubmit,
+    watch,
     setValue,
     formState: { errors }
   } = useForm<Employees>({
@@ -48,9 +51,7 @@ const EmployeeCreate = () => {
       <View style={styles.content}>
         <Controller
           control={control}
-          rules={{
-            required: true
-          }}
+          rules={RuleName}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='ingresa nombre completo'
@@ -62,13 +63,11 @@ const EmployeeCreate = () => {
           )}
           name='name'
         />
-        {errors.name != null && <Text>{ERRORFORM}</Text>}
+        {errors.name != null && <Text style={styles.error}>{ERRORFORM}</Text>}
 
         <Controller
           control={control}
-          rules={{
-            required: true
-          }}
+          rules={RuleJob}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='ingresa puesto laboral'
@@ -80,25 +79,9 @@ const EmployeeCreate = () => {
           )}
           name='jobTitle'
         />
-        {errors.jobTitle != null && <Text>{ERRORFORM}</Text>}
-
-        <Controller
-          control={control}
-          rules={{
-            required: true
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              placeholder='ingresa vacuna administrada'
-              onBlur={onBlur}
-              onChange={onChange}
-              value={value}
-              label='Vacuna Administrada'
-            />
-          )}
-          name='vaccineAdministered'
-        />
-        {errors.jobTitle != null && <Text>{ERRORFORM}</Text>}
+        {errors.jobTitle != null && (
+          <Text style={styles.error}>{ERRORFORM}</Text>
+        )}
 
         <Datepicker
           modePicker='date'
@@ -106,7 +89,29 @@ const EmployeeCreate = () => {
           setValue={setValue}
           nameValue='firstDoseDate'
         />
-        <ButtonSubmit onSubmit={handleSubmit(onSubmit)} title='Guardar' />
+
+        {watch('firstDoseDate') === '' ? (
+          <>
+            <Text style={styles.error}>{ERRORFORM}</Text>
+          </>
+        ) : (
+          <></>
+        )}
+
+        <Dropdown data={DATAVACCINE} setValue={setValue} />
+        {watch('vaccineAdministered') === '' ? (
+          <>
+            <Text style={styles.error}>{ERRORFORM}</Text>
+          </>
+        ) : (
+          <></>
+        )}
+
+        <ButtonSubmit
+          onSubmit={handleSubmit(onSubmit)}
+          title='Guardar'
+          disabled={watch('vaccineAdministered') === ''}
+        />
       </View>
     </View>
   )
@@ -130,5 +135,12 @@ const styles = StyleSheet.create({
     gap: 25,
     width: '95%',
     alignSelf: 'center'
+  },
+  error: {
+    fontSize: 12,
+    color: Colors.danger,
+    marginTop: -20,
+    marginLeft: 15,
+    fontWeight: '700'
   }
 })

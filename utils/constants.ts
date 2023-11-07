@@ -1,26 +1,28 @@
 import * as Crypto from 'expo-crypto'
+import { type DATA } from '../src/components/Dropdown'
 import { type EmployeesState } from '../types/employees'
 import { type Vaccine } from '../types/vaccines'
-
-const UUID = Crypto.randomUUID()
 
 export const ERRORFORM = 'Campo requerido!'
 
 export const States: EmployeesState[] = [
   {
-    id: UUID,
+    id: Crypto.randomUUID(),
     state: 'Protegido',
-    description: 'Plan de vacunacion completo'
+    description: 'Plan de vacunacion completo',
+    img: 0
   },
   {
-    id: UUID,
+    id: Crypto.randomUUID(),
     state: 'En progreso',
-    description: 'Pendiente alguna dosis'
+    description: 'Pendiente alguna dosis',
+    img: 1
   },
   {
-    id: UUID,
+    id: Crypto.randomUUID(),
     state: 'En riesgo',
-    description: 'No vacunado'
+    description: 'No vacunado',
+    img: 2
   }
 ]
 
@@ -72,5 +74,32 @@ export const Vaccines: Vaccine[] = [
       quantity: 0,
       time: 'days'
     }
+  }
+]
+
+export const DATAVACCINE: DATA[] = [
+  {
+    label: 'Sinopharm',
+    value: 'Sinopharm'
+  },
+  {
+    label: 'AstraZeneca',
+    value: 'AstraZeneca'
+  },
+  {
+    label: 'Sputnik',
+    value: 'Sputnik'
+  },
+  {
+    label: 'Pfizer',
+    value: 'Pfizer'
+  },
+  {
+    label: 'Moderna',
+    value: 'Moderna'
+  },
+  {
+    label: 'Janssen',
+    value: 'Janssen'
   }
 ]

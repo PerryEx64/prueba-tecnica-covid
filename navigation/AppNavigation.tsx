@@ -7,6 +7,7 @@ import Home from '../src/Home'
 import IconNavigation from '../src/components/IconNavigation'
 import { type RootStackParamList } from '../types/navigation'
 import EmployeeEdit from '../src/EmployeeEdit'
+import StateCriteria from '../src/StateCriteria'
 
 const AppNavigation = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>()
@@ -24,7 +25,7 @@ const AppNavigation = () => {
         name='employeeCreate'
         component={EmployeeCreate}
         options={{
-          title: 'Crear Empleado',
+          title: 'Empleado',
           headerRight: () => (
             <IconNavigation to={'home'} title='Inicio'>
               <MaterialCommunityIcons name='home' size={28} color='#0277B5' />
@@ -49,10 +50,18 @@ const AppNavigation = () => {
         name='employeeEdit'
         component={EmployeeEdit}
         options={{
-          title: 'Edicion de Empleados',
+          title: 'Empleados'
+        }}
+      />
+
+      <Stack.Screen
+        name='stateCriteria'
+        component={StateCriteria}
+        options={{
+          title: 'Criterio de estados',
           headerRight: () => (
-            <IconNavigation to={'employeeView'} title='Agregar empleado'>
-              <Ionicons name='person-add' size={28} color='#0277B5' />
+            <IconNavigation to={'home'} title='Agregar empleado'>
+              <MaterialCommunityIcons name='home' size={28} color='#0277B5' />
             </IconNavigation>
           )
         }}

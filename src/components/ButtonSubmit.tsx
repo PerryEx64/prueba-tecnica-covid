@@ -5,14 +5,26 @@ import {
   TouchableOpacity,
   type GestureResponderEvent
 } from 'react-native'
+import { Colors } from '../../utils/colors'
 
 interface Props {
   title: string
   onSubmit: (event: GestureResponderEvent) => void
+  disabled?: boolean
 }
-const ButtonSubmit = ({ title, onSubmit }: Props) => {
+const ButtonSubmit = ({ title, onSubmit, disabled }: Props) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onSubmit}>
+    <TouchableOpacity
+      style={[
+        styles.button,
+        {
+          backgroundColor:
+            disabled === true ? Colors.secundary : Colors['secundary-100']
+        }
+      ]}
+      onPress={onSubmit}
+      disabled={disabled}
+    >
       <Text style={styles.buttonTitle}>{title}</Text>
     </TouchableOpacity>
   )
@@ -22,7 +34,6 @@ export default ButtonSubmit
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#FF516E',
     padding: 6,
     borderRadius: 5,
     width: '60%',

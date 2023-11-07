@@ -10,6 +10,7 @@ import { ERRORFORM } from '../utils/constants'
 import ButtonSubmit from './components/ButtonSubmit'
 import Datepicker from './components/Datepicker'
 import Input from './components/Input'
+import { RuleJob, RuleName } from '../utils/rules'
 
 const EmployeeEdit = ({ route }: any) => {
   const { updatedNavigation } = useUpdate()
@@ -44,14 +45,12 @@ const EmployeeEdit = ({ route }: any) => {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{'FORMULARIO CREAR EMPLEADO'}</Text>
+      <Text style={styles.title}>{'FORMULARIO EDICION EMPLEADO'}</Text>
 
       <View style={styles.content}>
         <Controller
           control={control}
-          rules={{
-            required: true
-          }}
+          rules={RuleName}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='ingresa nombre completo'
@@ -67,9 +66,7 @@ const EmployeeEdit = ({ route }: any) => {
 
         <Controller
           control={control}
-          rules={{
-            required: true
-          }}
+          rules={RuleJob}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
               placeholder='ingresa puesto laboral'

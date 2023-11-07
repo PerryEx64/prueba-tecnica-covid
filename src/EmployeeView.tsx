@@ -1,14 +1,25 @@
+import { useNavigation } from '@react-navigation/native'
+import { type StackNavigationProp } from '@react-navigation/stack'
 import React, { useContext, useEffect } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
+import { UpdatedContext } from '../context/UpdatedContext'
 import { GetEmployees } from '../services/employee'
 import { type Employees } from '../types/employees'
+import { type RootStackParamList } from '../types/navigation'
+import { Colors } from '../utils/colors'
 import DataExtra from './components/DataExtra'
 import LabelText from './components/LabelText'
-import { UpdatedContext } from '../context/UpdatedContext'
 
 const EmployeeView = () => {
   const [employees, setEmployees] = React.useState<Employees[]>([])
   const { updated } = useContext(UpdatedContext)
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
   useEffect(() => {
     GetEmployees(setEmployees)
@@ -20,7 +31,14 @@ const EmployeeView = () => {
 
   return (
     <View style={styles.container}>
-      <Text>{'Criterios evaluacion'}</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.navigate('stateCriteria')
+        }}
+      >
+        <Text style={styles.buttonTitle}>{'Criterios de estados'}</Text>
+      </TouchableOpacity>
       <FlatList
         data={employees}
         keyExtractor={(item) => item.id}
@@ -53,7 +71,6 @@ const styles = StyleSheet.create({
   },
   containerList: {
     borderWidth: 0.7,
-    shadowColor: '#000',
     borderRadius: 8,
     padding: 5,
     gap: 10
@@ -61,5 +78,18 @@ const styles = StyleSheet.create({
   contentList: {
     flexDirection: 'row',
     justifyContent: 'space-evenly'
+  },
+  button: {
+    backgroundColor: Colors['secundary-100'],
+    padding: 4,
+    borderRadius: 5,
+    width: '40%',
+    marginTop: 10,
+    marginLeft: 10
+  },
+  buttonTitle: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    textAlign: 'center'
   }
 })
