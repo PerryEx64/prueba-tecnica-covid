@@ -17,3 +17,8 @@ Abra una terminal en la raíz del proyecto y ejecute el siguiente comando para i
 3. Ejecutar npx expo start
 4. Precionar tecla "a" (para ejecutar en android)
 
+#### Imagenes Proyecto
+
+![home preview](./assets/project-images/iphone-home-preview.png)
+![splash preview](./assets/project-images/iphone-splash-preview.png)
+![Screen ](ome./assets/project-images/home.PNG)
