@@ -28,6 +28,7 @@ module.exports = {
         "no-unused-expressions": "off",
         "@typescript-eslint/no-unused-expressions": "off",
         "multiline-ternary": 'off',
-        "@typescript-eslint/indent" : 'off'
+        "@typescript-eslint/indent" : 'off',
+        "@typescript-eslint/strict-boolean-expressions": 'off'
     }
 }

@@ -3,7 +3,7 @@ import React from 'react'
 
 interface Props {
   label: string | JSX.Element
-  text: string | number
+  text: string | number | undefined
 }
 const LabelText = ({ label, text }: Props) => {
   return (

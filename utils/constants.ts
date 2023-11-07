@@ -103,3 +103,14 @@ export const DATAVACCINE: DATA[] = [
     value: 'Janssen'
   }
 ]
+
+type conditionType = 0 | 1 | 2
+export const handleIcon = (condition: conditionType) => {
+  const required: Record<conditionType, any> = {
+    0: require('../assets/icons/protegido.png'),
+    1: require('../assets/icons/proceso.png'),
+    2: require('../assets/icons/riesgo.png')
+  }
+
+  return required[condition]
+}

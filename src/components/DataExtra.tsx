@@ -2,7 +2,7 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { type StackNavigationProp } from '@react-navigation/stack'
 import moment from 'moment'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Alert,
   Image,
@@ -19,15 +19,34 @@ import { type Employees } from '../../types/employees'
 import { type RootStackParamList } from '../../types/navigation'
 import { type SecondDose, type Vaccine } from '../../types/vaccines'
 import { Colors } from '../../utils/colors'
-import { Vaccines } from '../../utils/constants'
+import { Vaccines, handleIcon } from '../../utils/constants'
 import LabelText from './LabelText'
 
 const DataExtra = ({ employee }: { employee: Employees }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [view, setView] = React.useState<boolean>(false)
   const [iconExpand, setIconExpand] = React.useState(false)
+  const [vaccine, setVaccine] = React.useState<Vaccine>()
   const { updatedNavigation } = useUpdate()
 
+  useEffect(() => {
+    const typeVaccine: Vaccine | any = Vaccines.find(
+      (vaccine) => vaccine.name === employee.vaccineAdministered
+    )
+
+    if (typeVaccine !== undefined) {
+      setVaccine(typeVaccine)
+    } else {
+      setVaccine({
+        doseQuantity: 0,
+        name: '',
+        nextDose: {
+          quantity: 0,
+          time: 'days'
+        }
+      })
+    }
+  }, [])
   const calculateDay = (seconDoseTime: SecondDose): number => {
     if (seconDoseTime.time === 'weeks') {
       return seconDoseTime.quantity * 7
@@ -39,30 +58,11 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
   const handleDateDays = (): any => {
     const dateInit = moment(employee.firstDoseDate, 'DD-MM-YYYY')
 
-    // busca que tipo de vacula tiene el empleado
-    const typeVaccine: Vaccine | any = Vaccines.find(
-      (vaccine) => vaccine.name === employee.vaccineAdministered
-    )
+    const daysSecondDose = calculateDay(vaccine.nextDose)
 
-    if (typeVaccine !== undefined) {
-      // si si tiene la vacuna
-      const daysSecondDose = calculateDay(typeVaccine.nextDose)
+    const nuevaFecha = dateInit.add(daysSecondDose, 'days')
 
-      const nuevaFecha = dateInit.add(daysSecondDose, 'days')
-
-      return nuevaFecha.format('DD-MM-YYYY')
-    }
-  }
-
-  type conditionType = 0 | 1 | 2
-  const handleIcon = (condition: conditionType) => {
-    const required: Record<conditionType, any> = {
-      0: require('../../assets/icons/protegido.png'),
-      1: require('../../assets/icons/proceso.png'),
-      2: require('../../assets/icons/riesgo.png')
-    }
-
-    return required[condition]
+    return nuevaFecha.format('DD-MM-YYYY')
   }
 
   return (
@@ -113,78 +113,84 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
         {view && (
-          <>
-            <ScrollView style={{ marginLeft: 15 }}>
-              <LabelText
-                label='Fecha primera dosis:'
-                text={employee.firstDoseDate}
-              />
-              {employee.secondDoseDate === '' ? (
-                <LabelText
-                  label='Fecha estimada para segunda dosis:'
-                  text={handleDateDays()}
-                />
-              ) : (
-                <LabelText
-                  label='Fecha segunda dosis:'
-                  text={employee.secondDoseDate ?? ''}
-                />
-              )}
-
-              <View style={styles.containerActionButtons}>
-                <TouchableOpacity
-                  style={[styles.button, { backgroundColor: Colors.warning }]}
-                  onPress={() => {
-                    navigation.navigate('employeeEdit', { data: employee })
-                  }}
-                >
-                  <AntDesign
-                    name='edit'
-                    size={24}
-                    color='black'
-                    style={styles.icon}
+          <ScrollView style={{ marginLeft: 15, flex: 1, marginBottom: 50 }}>
+            <LabelText
+              label='Fecha primera dosis:'
+              text={employee.firstDoseDate}
+            />
+            {vaccine.doseQuantity > 1 ? (
+              <>
+                {employee.secondDoseDate === '' ? (
+                  <LabelText
+                    label='Fecha estimada para segunda dosis:'
+                    text={handleDateDays()}
                   />
-                </TouchableOpacity>
+                ) : (
+                  <LabelText
+                    label='Fecha segunda dosis:'
+                    text={employee.secondDoseDate ?? ''}
+                  />
+                )}
+              </>
+            ) : (
+              <></>
+            )}
 
-                <TouchableOpacity
-                  style={[styles.button, { backgroundColor: Colors.danger }]}
-                  onPress={() => {
-                    Alert.alert(
-                      'Deseas eliminar empleado?',
-                      'despues ya no podras recuperarlo',
-                      [
-                        {
-                          text: 'Cancel',
-                          style: 'cancel'
-                        },
-                        {
-                          text: 'OK',
-                          onPress: () => {
-                            DeleteEmployee(employee.id)
-                            updatedNavigation('employeeView')
-                            Toast.show({
-                              type: 'success',
-                              text1: 'Empleado Eliminado',
-                              position: 'bottom'
-                            })
-                          }
+            <LabelText label='Dosis' text={vaccine?.doseQuantity} />
+
+            <View style={styles.containerActionButtons}>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: Colors.warning }]}
+                onPress={() => {
+                  navigation.navigate('employeeEdit', { data: employee })
+                }}
+              >
+                <AntDesign
+                  name='edit'
+                  size={24}
+                  color='black'
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: Colors.danger }]}
+                onPress={() => {
+                  Alert.alert(
+                    'Deseas eliminar empleado?',
+                    'despues ya no podras recuperarlo',
+                    [
+                      {
+                        text: 'Cancel',
+                        style: 'cancel'
+                      },
+                      {
+                        text: 'OK',
+                        onPress: () => {
+                          DeleteEmployee(employee.id)
+                          updatedNavigation('employeeView')
+                          Toast.show({
+                            type: 'success',
+                            text1: 'Empleado Eliminado',
+                            position: 'bottom'
+                          })
                         }
-                      ]
-                    )
-                  }}
-                >
-                  <AntDesign
-                    name='delete'
-                    size={24}
-                    color='black'
-                    style={styles.icon}
-                  />
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
-          </>
+                      }
+                    ]
+                  )
+                }}
+              >
+                <AntDesign
+                  name='delete'
+                  size={24}
+                  color='black'
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         )}
       </View>
     </>

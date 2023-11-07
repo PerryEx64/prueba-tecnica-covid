@@ -45,16 +45,6 @@ export const CreateEmployee = (data) => {
         console.error('Error al insertar empleado:', error)
       }
     )
-    tx.executeSql(
-      'select * from employees',
-      [],
-      (_, { rows }) => {
-        console.log('Resultado de la consulta:', JSON.stringify(rows))
-      },
-      (_, error) => {
-        console.error('Error en la consulta:', error)
-      }
-    )
   })
 }
 

@@ -1,20 +1,9 @@
 import React from 'react'
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
-import { States } from '../utils/constants'
+import { States, handleIcon } from '../utils/constants'
 import LabelText from './components/LabelText'
 
 const StateCriteria = () => {
-  type conditionType = 0 | 1 | 2
-  const handleIcon = (condition: conditionType) => {
-    const required: Record<conditionType, any> = {
-      0: require('../assets/icons/protegido.png'),
-      1: require('../assets/icons/proceso.png'),
-      2: require('../assets/icons/riesgo.png')
-    }
-
-    return required[condition]
-  }
-
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <FlatList
