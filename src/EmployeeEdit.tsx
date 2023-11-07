@@ -6,11 +6,12 @@ import useUpdate from '../hooks/useUpdate'
 import { UpdateEmployee } from '../services/employee'
 import { type Employees } from '../types/employees'
 import { Colors } from '../utils/colors'
-import { ERRORFORM } from '../utils/constants'
+import { DATAVACCINE, ERRORFORM } from '../utils/constants'
 import ButtonSubmit from './components/ButtonSubmit'
 import Datepicker from './components/Datepicker'
 import Input from './components/Input'
 import { RuleJob, RuleName } from '../utils/rules'
+import Dropdown from './components/Dropdown'
 
 const EmployeeEdit = ({ route }: any) => {
   const { updatedNavigation } = useUpdate()
@@ -80,24 +81,19 @@ const EmployeeEdit = ({ route }: any) => {
         />
         {errors.jobTitle != null && <Text>{ERRORFORM}</Text>}
 
-        <Controller
-          control={control}
-          rules={{
-            required: true
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              placeholder='ingresa vacuna administrada'
-              disabled={false}
-              onBlur={onBlur}
-              onChange={onChange}
-              value={value}
-              label='Vacuna Administrada'
+        {watch('vaccineAdministered') === '' ? (
+          <>
+            <Dropdown data={DATAVACCINE} setValue={setValue} />
+          </>
+        ) : (
+          <>
+            <Dropdown
+              data={DATAVACCINE}
+              setValue={setValue}
+              defaultValue={watch('vaccineAdministered')}
             />
-          )}
-          name='vaccineAdministered'
-        />
-        {errors.jobTitle != null && <Text>{ERRORFORM}</Text>}
+          </>
+        )}
 
         <Datepicker
           modePicker='date'
@@ -110,7 +106,7 @@ const EmployeeEdit = ({ route }: any) => {
 
         <Datepicker
           modePicker='date'
-          label='Fecha primera dosis'
+          label='Fecha segunda dosis'
           setValue={setValue}
           nameValue='secondDoseDate'
           edit={true}
@@ -140,5 +136,12 @@ const styles = StyleSheet.create({
     gap: 25,
     width: '95%',
     alignSelf: 'center'
+  },
+  error: {
+    fontSize: 12,
+    color: Colors.danger,
+    marginTop: -20,
+    marginLeft: 15,
+    fontWeight: '700'
   }
 })

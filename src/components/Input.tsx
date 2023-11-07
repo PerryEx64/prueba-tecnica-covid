@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 44,
-    shadowColor: '#000',
+    shadowColor: '#0000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     borderWidth: 0.5,

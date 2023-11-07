@@ -12,10 +12,12 @@ export interface DATA {
 
 const Dropdown = ({
   data,
-  setValue
+  setValue,
+  defaultValue
 }: {
   data: DATA[]
   setValue: UseFormSetValue<Employees>
+  defaultValue?: string | null
 }) => {
   const [isFocus, setIsFocus] = useState(false)
   const [valueDrop, setValueDrop] = useState<string | null>(null)
@@ -42,7 +44,7 @@ const Dropdown = ({
         valueField='value'
         placeholder={!isFocus ? 'Select item' : '...'}
         searchPlaceholder='Buscar...'
-        value={valueDrop}
+        value={defaultValue !== undefined ? defaultValue : valueDrop}
         onFocus={() => {
           setIsFocus(true)
         }}

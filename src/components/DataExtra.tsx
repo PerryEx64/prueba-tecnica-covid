@@ -6,7 +6,6 @@ import React, { useEffect } from 'react'
 import {
   Alert,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -73,7 +72,10 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
             <Image
               style={styles.img}
               source={
-                employee.firstDoseDate !== '' && employee.secondDoseDate !== ''
+                vaccine?.doseQuantity === 1
+                  ? handleIcon(0)
+                  : employee.firstDoseDate !== '' &&
+                    employee.secondDoseDate !== ''
                   ? handleIcon(0)
                   : employee.vaccineAdministered === ''
                   ? handleIcon(2)
@@ -84,14 +86,13 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
             />
 
             <Text>
-              {employee.vaccineAdministered === ''
-                ? 'En Riesgo'
+              {employee.firstDoseDate !== '' && employee.secondDoseDate !== ''
+                ? 'protegido'
+                : employee.vaccineAdministered === ''
+                ? 'en riesgo'
                 : employee.firstDoseDate !== ''
-                ? 'En Proceso'
-                : employee.firstDoseDate !== '' &&
-                  employee.secondDoseDate !== ''
-                ? 'Protegido'
-                : 'En Riesgo'}
+                ? 'en proceso'
+                : ''}
             </Text>
           </View>
           <TouchableOpacity
@@ -113,9 +114,9 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{}}>
         {view && (
-          <ScrollView style={{ marginLeft: 15, flex: 1, marginBottom: 50 }}>
+          <View style={{ marginLeft: 15 }}>
             <LabelText
               label='Fecha primera dosis:'
               text={employee.firstDoseDate}
@@ -124,7 +125,7 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
               <>
                 {employee.secondDoseDate === '' ? (
                   <LabelText
-                    label='Fecha estimada para segunda dosis:'
+                    label='Fecha estimada segunda dosis:'
                     text={handleDateDays()}
                   />
                 ) : (
@@ -190,7 +191,7 @@ const DataExtra = ({ employee }: { employee: Employees }) => {
                 />
               </TouchableOpacity>
             </View>
-          </ScrollView>
+          </View>
         )}
       </View>
     </>

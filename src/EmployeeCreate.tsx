@@ -110,7 +110,6 @@ const EmployeeCreate = () => {
         <ButtonSubmit
           onSubmit={handleSubmit(onSubmit)}
           title='Guardar'
-          disabled={watch('vaccineAdministered') === ''}
         />
       </View>
     </View>

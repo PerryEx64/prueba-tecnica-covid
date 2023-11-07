@@ -1,7 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
 import { type StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import { CreateTableEmployee } from '../services/employee'
 import { type RootStackParamList } from '../types/navigation'
 
@@ -16,16 +23,18 @@ const Home = () => {
     CreateTableEmployee()
   }, [])
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{'Control de vacunacion COVID-19'}</Text>
-      <Image
-        source={require('../assets/images/logo.png')}
-        style={styles.logo}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleNavigation}>
-        <Text style={styles.buttonTitle}>{'Empezar'}</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.title}>{'Control de vacunacion COVID-19'}</Text>
+        <Image
+          source={require('../assets/images/logo.png')}
+          style={styles.logo}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleNavigation}>
+          <Text style={styles.buttonTitle}>{'Empezar'}</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   )
 }
 

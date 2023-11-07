@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
   },
   labelTxt: {
     fontSize: 14,
-    fontWeight: '600'
+    fontWeight: '600',
+    maxWidth: 220
   },
   textTxt: {
     fontSize: 13,

@@ -36,7 +36,7 @@ export const CreateEmployee = (data) => {
       (_, { insertId, rowsAffected }) => {
         if (rowsAffected > 0) {
           // La inserción fue exitosa
-          console.log('Empleado creado con éxito. ID:', insertId)
+          console.log('Empleado creado con éxito')
         } else {
           console.log('No se insertaron registros.')
         }
